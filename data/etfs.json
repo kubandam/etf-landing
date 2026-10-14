@@ -1,0 +1,192 @@
+{
+	"funds": [
+		{
+			"ticker": "SPY",
+			"name": "State Street SPDR S&P 500 ETF Trust",
+			"issuer": "State Street Global Advisors",
+			"issuerUrl": "https://www.ssga.com/us/en/intermediary/etfs/spdr-sp-500-etf-trust-spy",
+			"showOnPage": true,
+			"exchange": {
+				"value": "NYSE Arca",
+				"source": "https://www.ssga.com/us/en/intermediary/etfs/spdr-sp-500-etf-trust-spy",
+				"checked": "2026-10-14",
+				"note": "Listing Information table, as of Oct 14 2026"
+			},
+			"terPct": {
+				"value": 0.0945,
+				"source": "https://www.ssga.com/us/en/intermediary/etfs/spdr-sp-500-etf-trust-spy",
+				"checked": "2026-10-14",
+				"note": "Gross Expense Ratio"
+			},
+			"aumUsd": {
+				"value": 823230730000,
+				"source": "https://www.ssga.com/us/en/intermediary/etfs/spdr-sp-500-etf-trust-spy",
+				"checked": "2026-10-14",
+				"note": "Assets Under Management $823,230.73 M, as of Oct 13 2026"
+			},
+			"dividendYieldPct": {
+				"value": 0.94,
+				"source": "https://www.ssga.com/us/en/intermediary/etfs/spdr-sp-500-etf-trust-spy",
+				"checked": "2026-10-14",
+				"note": "30 Day SEC Yield, as of Oct 13 2026"
+			},
+			"ucits": {
+				"ticker": "SPY5",
+				"name": "State Street SPDR S&P 500 UCITS ETF (Dist)",
+				"issuerUrl": "https://www.ssga.com/uk/en_gb/intermediary/etfs/state-street-spdr-sp-500-ucits-etf-dist-spy5-gy",
+				"isin": {
+					"value": "IE00B6YX5C33",
+					"source": "https://www.ssga.com/uk/en_gb/intermediary/etfs/state-street-spdr-sp-500-ucits-etf-dist-spy5-gy",
+					"checked": "2026-10-14"
+				},
+				"terPct": {
+					"value": 0.03,
+					"source": "https://www.ssga.com/uk/en_gb/intermediary/etfs/state-street-spdr-sp-500-ucits-etf-dist-spy5-gy",
+					"checked": "2026-10-14",
+					"note": "TER, page says as of 30 Sep 2026"
+				}
+			}
+		},
+		{
+			"ticker": "VOO",
+			"name": "Vanguard S&P 500 ETF",
+			"issuer": "Vanguard",
+			"issuerUrl": "https://investor.vanguard.com/investment-products/etfs/profile/voo",
+			"showOnPage": true,
+			"exchange": {
+				"value": "NYSE Arca",
+				"source": "https://www.nyse.com/quote/ARCX:VOO",
+				"checked": "2026-10-14",
+				"note": "issuer page does not state the exchange; verified on NYSE site (ARCX = NYSE Arca)"
+			},
+			"terPct": {
+				"value": 0.03,
+				"source": "https://investor.vanguard.com/investment-products/etfs/profile/voo",
+				"checked": "2026-10-14",
+				"note": "Expense ratio, as of 04/28/2026"
+			},
+			"aumUsd": {
+				"value": 1000000000000,
+				"source": "https://investor.vanguard.com/investment-products/etfs/profile/voo",
+				"checked": "2026-10-14",
+				"note": "Share class total net assets, rounded by issuer to $1.0 trillion, as of 09/30/2026 (fund total incl. other share classes is $1.7 trillion)"
+			},
+			"dividendYieldPct": {
+				"value": 1.0,
+				"source": "https://investor.vanguard.com/investment-products/etfs/profile/voo",
+				"checked": "2026-10-14",
+				"note": "30 day SEC yield, as of 09/30/2026"
+			},
+			"ucits": {
+				"ticker": "VUAA",
+				"name": "Vanguard S&P 500 UCITS ETF (USD) Accumulating",
+				"issuerUrl": "https://www.vanguard.co.uk/professional/product/etf/equity/9694/sp-500-ucits-etf-usd-accumulating",
+				"isin": {
+					"value": "IE00BFMXXD54",
+					"source": "https://www.vanguard.co.uk/professional/product/etf/equity/9694/sp-500-ucits-etf-usd-accumulating",
+					"checked": "2026-10-14"
+				},
+				"terPct": {
+					"value": 0.07,
+					"source": "https://www.vanguard.co.uk/professional/product/etf/equity/9694/sp-500-ucits-etf-usd-accumulating",
+					"checked": "2026-10-14",
+					"note": "OCF/TER"
+				}
+			}
+		},
+		{
+			"ticker": "IVV",
+			"name": "iShares Core S&P 500 ETF",
+			"issuer": "BlackRock iShares",
+			"issuerUrl": "https://www.ishares.com/us/products/239726/ishares-core-sp-500-etf",
+			"showOnPage": true,
+			"exchange": {
+				"value": "NYSE Arca",
+				"source": "https://www.ishares.com/us/products/239726/ishares-core-sp-500-etf",
+				"checked": "2026-10-14",
+				"note": "Key Facts section"
+			},
+			"terPct": {
+				"value": 0.03,
+				"source": "https://www.ishares.com/us/products/239726/ishares-core-sp-500-etf",
+				"checked": "2026-10-14",
+				"note": "Expense Ratio: Fees as stated in the prospectus"
+			},
+			"aumUsd": {
+				"value": 896463527326,
+				"source": "https://www.ishares.com/us/products/239726/ishares-core-sp-500-etf",
+				"checked": "2026-10-14",
+				"note": "Net Assets of Fund, Key Facts section, as of Oct 13 2026"
+			},
+			"dividendYieldPct": {
+				"value": 0.95,
+				"source": "https://www.ishares.com/us/products/239726/ishares-core-sp-500-etf",
+				"checked": "2026-10-14",
+				"note": "30 Day SEC Yield, as of Sep 30 2026 (12m Trailing Yield 1.10%)"
+			},
+			"ucits": {
+				"ticker": "CSPX",
+				"name": "iShares Core S&P 500 UCITS ETF (Acc)",
+				"issuerUrl": "https://www.ishares.com/uk/individual/en/products/253743/ishares-sp-500-b-ucits-etf-acc-fund",
+				"isin": {
+					"value": "IE00B5BMR087",
+					"source": "https://www.ishares.com/uk/individual/en/products/253743/ishares-sp-500-b-ucits-etf-acc-fund",
+					"checked": "2026-10-14"
+				},
+				"terPct": {
+					"value": 0.07,
+					"source": "https://www.ishares.com/uk/individual/en/products/253743/ishares-sp-500-b-ucits-etf-acc-fund",
+					"checked": "2026-10-14",
+					"note": "Total Expense Ratio"
+				}
+			}
+		},
+		{
+			"ticker": "SPYM",
+			"name": "State Street SPDR Portfolio S&P 500 ETF",
+			"issuer": "State Street Global Advisors",
+			"issuerUrl": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-portfolio-sp-500-etf-spym",
+			"showOnPage": false,
+			"exchange": {
+				"value": "NYSE Arca",
+				"source": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-portfolio-sp-500-etf-spym",
+				"checked": "2026-10-14",
+				"note": "Listing Information table, as of Oct 14 2026. Fund traded as SPLG until Oct 31 2025 (ticker and name change)."
+			},
+			"terPct": {
+				"value": 0.02,
+				"source": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-portfolio-sp-500-etf-spym",
+				"checked": "2026-10-14",
+				"note": "Gross Expense Ratio"
+			},
+			"aumUsd": {
+				"value": 185171570000,
+				"source": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-portfolio-sp-500-etf-spym",
+				"checked": "2026-10-14",
+				"note": "Assets Under Management $185,171.57 M, as of Oct 13 2026"
+			},
+			"dividendYieldPct": {
+				"value": 1.02,
+				"source": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-portfolio-sp-500-etf-spym",
+				"checked": "2026-10-14",
+				"note": "30 Day SEC Yield, as of Oct 13 2026"
+			},
+			"ucits": {
+				"ticker": "SPYL",
+				"name": "State Street SPDR S&P 500 UCITS ETF (Acc)",
+				"issuerUrl": "https://www.ssga.com/uk/en_gb/intermediary/etfs/state-street-spdr-sp-500-ucits-etf-acc-spyl-gy",
+				"isin": {
+					"value": "IE000XZSV718",
+					"source": "https://www.ssga.com/uk/en_gb/intermediary/etfs/state-street-spdr-sp-500-ucits-etf-acc-spyl-gy",
+					"checked": "2026-10-14"
+				},
+				"terPct": {
+					"value": 0.03,
+					"source": "https://www.ssga.com/uk/en_gb/intermediary/etfs/state-street-spdr-sp-500-ucits-etf-acc-spyl-gy",
+					"checked": "2026-10-14",
+					"note": "TER"
+				}
+			}
+		}
+	]
+}

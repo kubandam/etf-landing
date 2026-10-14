@@ -7,7 +7,9 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "check:data": "node scripts/check-data.mjs",
+    "prebuild": "pnpm check:data"
   },
   "dependencies": {
     "nuxt": "^4.6.1",
