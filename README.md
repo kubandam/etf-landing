@@ -76,12 +76,14 @@ Dropped ideas:
 
 All figures on the page are real and checked by hand against the issuer's page. The data is in [`/data/etfs.json`](./data/etfs.json), each value has its source URL and the date I checked it.
 
-| ETF                      | Ticker | Issuer page |
-| ------------------------ | ------ | ----------- |
-| SPDR S&P 500 ETF Trust   | SPY    | TODO URL    |
-| Vanguard S&P 500 ETF     | VOO    | TODO URL    |
-| iShares Core S&P 500 ETF | IVV    | TODO URL    |
+| ETF                                                     | Ticker | TER      | UCITS equivalent    | Issuer page                                                                              |
+| ------------------------------------------------------- | ------ | -------- | ------------------- | ---------------------------------------------------------------------------------------- |
+| State Street SPDR S&P 500 ETF Trust                     | SPY    | 0.0945 % | SPY5 (IE00B6YX5C33) | https://www.ssga.com/us/en/intermediary/etfs/spdr-sp-500-etf-trust-spy                   |
+| Vanguard S&P 500 ETF                                    | VOO    | 0.03 %   | VUAA (IE00BFMXXD54) | https://investor.vanguard.com/investment-products/etfs/profile/voo                       |
+| iShares Core S&P 500 ETF                                | IVV    | 0.03 %   | CSPX (IE00B5BMR087) | https://www.ishares.com/us/products/239726/ishares-core-sp-500-etf                       |
+| State Street SPDR Portfolio S&P 500 ETF (formerly SPLG) | SPYM   | 0.02 %   | SPYL (IE000XZSV718) | https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-portfolio-sp-500-etf-spym |
 
+All values checked by hand on 2026-10-14 against the issuer page (saved as PDF). Dividend yield is 30 Day SEC Yield for all four funds so they are comparable. `scripts/check-data.mjs` runs before every build and fails it if any value has no source, no check date, or a source outside the issuer's domain (nyse.com allowed only for the exchange field).
 Fields per fund: expense ratio (TER), fund size, dividend yield, exchange, date checked. TODO: fill the table with values after verifying them.
 
 Calculation: TODO (assumed yearly return, how fees are applied). The assumed return is shown on the page next to the result.
@@ -154,9 +156,9 @@ Tools: Claude Code for implementation, Claude (chat) for discussing the approach
 
 **Where the AI got it wrong.**
 
-| What it did wrong | How I noticed | What I did |
-| ----------------- | ------------- | ---------- |
-| TODO              | TODO          | TODO       |
+| SPLG no longer exists as a ticker | The agent found that the SSGA page redirects to SPYM and asked me. I verified it in SSGA's own notice to authorized participants (ticker change 2025-10-31) | Kept SPYM, noted "formerly SPLG" in the data |
+| Vanguard blocks headless browsers, agent got an empty page | The agent said so instead of inventing values | I saved the page as PDF and filled the VOO values myself |
+| I pasted VOO values into the IVV record | Noticed when re-reading the notes: IVV had Vanguard wording in it | Fixed; the check script does not catch this, only reading the file does |
 
 ## 13. What is missing
 
