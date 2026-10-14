@@ -2,7 +2,7 @@
 
 Lead-generation landing page that compares NYSE-listed S&P 500 ETFs for a Czech retail investor. Built with Nuxt, deployed on Vercel.
 
-- Live page: TODO URL
+- Live page: https://etf-landing-tau.vercel.app/
 - Ad versions: [`/ads`](./ads)
 - AI conversation exports: [`/ai-log`](./ai-log)
 
