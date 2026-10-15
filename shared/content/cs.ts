@@ -77,6 +77,14 @@ export const cs = {
       network: 'Nepodařilo se spojit se serverem. Zkontrolujte připojení a zkuste to znovu.',
     },
   },
+  email: {
+    subject: (monthly: string, years: number) => `Porovnání S&P 500 ETF: ${monthly} měsíčně, ${years} let`,
+    heading: 'Vaše porovnání S&P 500 ETF',
+    intro: (monthly: string, years: number) =>
+      `Pro ${monthly} měsíčně po dobu ${years} let. U každého amerického fondu je i jeho evropská (UCITS) verze, kterou koupíte u brokera z Česka.`,
+    endValue: 'Za tu dobu budete mít',
+    why: 'Tento e-mail jste dostali, protože jste si porovnání vyžádali na naší stránce. Nic dalšího vám bez souhlasu posílat nebudeme. Pokud chcete svůj e-mail smazat, odpovězte na tuto zprávu.',
+  },
   thanks: {
     heading: 'Děkujeme. Tady je celé porovnání.',
     restate: (monthly: string, years: number) => `Pro ${monthly} měsíčně po dobu ${years} let.`,

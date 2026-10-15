@@ -1,4 +1,5 @@
 import { LeadError, parseLead } from '../utils/lead'
+import { sendComparisonEmail } from '../utils/resend'
 import { upsertLead } from '../utils/supabase'
 
 export default defineEventHandler(async (event) => {
@@ -29,6 +30,9 @@ export default defineEventHandler(async (event) => {
     return { ok: false, error: 'storage' }
   }
 
+  // Only after the lead is saved. A failed e-mail never fails the request.
+  const emailed = await sendComparisonEmail(lead)
+
   setResponseStatus(event, 201)
-  return { ok: true, emailed: false }
+  return { ok: true, emailed }
 })

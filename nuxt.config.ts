@@ -37,6 +37,9 @@ export default defineNuxtConfig({
     // Server only. Set via NUXT_SUPABASE_URL / NUXT_SUPABASE_SERVICE_KEY.
     supabaseUrl: '',
     supabaseServiceKey: '',
+    // Server only. Set via NUXT_RESEND_API_KEY / NUXT_MAIL_FROM (e.g. "Porovnání ETF <porovnani@vasedomena.cz>").
+    resendApiKey: '',
+    mailFrom: '',
     public: {
       // Set via NUXT_PUBLIC_POSTHOG_KEY. Empty = no tracking, events only logged with console.debug.
       posthogKey: '',

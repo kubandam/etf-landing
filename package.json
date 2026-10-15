@@ -16,6 +16,7 @@
     "@supabase/supabase-js": "^2.117.3",
     "nuxt": "^4.6.1",
     "posthog-js": "^1.438.10",
+    "resend": "^6.33.0",
     "vue": "^3.5.43",
     "vue-router": "^5.4.0",
     "zod": "^4.6.7"
