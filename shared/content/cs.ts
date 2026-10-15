@@ -63,6 +63,8 @@ export const cs = {
   form: {
     heading:
       'Pošleme vám porovnání všech 4 fondů včetně evropských variant, které koupíte u českého brokera, s vašimi čísly.',
+    // The bottom form follows the comparison and "how to buy", so it asks instead of repeating the top line.
+    headingBottom: 'Chcete porovnání všech 4 fondů i s evropskými variantami?',
     emailLabel: 'Váš e-mail',
     emailPlaceholder: 'jan@email.cz',
     submit: 'Poslat porovnání',

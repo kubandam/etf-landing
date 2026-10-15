@@ -52,7 +52,7 @@ async function submit() {
 <template>
   <section class="lead">
     <form novalidate @submit.prevent="submit">
-      <h2 class="heading">{{ cs.form.heading }}</h2>
+      <h2 class="heading">{{ placement === 'bottom' ? cs.form.headingBottom : cs.form.heading }}</h2>
       <label :for="inputId" class="label">{{ cs.form.emailLabel }}</label>
       <input
         :id="inputId"
