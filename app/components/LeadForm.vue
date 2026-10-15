@@ -51,29 +51,108 @@ async function submit() {
 </script>
 
 <template>
-  <p v-if="done" role="status">{{ cs.form.thanks }}</p>
-  <form v-else novalidate @submit.prevent="submit">
-    <h2>{{ cs.form.heading }}</h2>
-    <label :for="inputId">{{ cs.form.emailLabel }}</label>
-    <input
-      :id="inputId"
-      v-model="email"
-      type="email"
-      name="email"
-      autocomplete="email"
-      inputmode="email"
-      required
-      :placeholder="cs.form.emailPlaceholder"
-      @focus="onFocus"
-      :aria-invalid="error === 'invalid_email'"
-      :aria-describedby="error ? `${inputId}-error` : undefined"
-    >
-    <div aria-hidden="true" style="position: absolute; left: -9999px">
-      <label :for="`${inputId}-website`">Web</label>
-      <input :id="`${inputId}-website`" v-model="website" type="text" name="website" tabindex="-1" autocomplete="off">
-    </div>
-    <button type="submit" :disabled="sending">{{ sending ? cs.form.sending : cs.form.submit }}</button>
-    <p v-if="error" :id="`${inputId}-error`" role="alert">{{ cs.form.errors[error] }}</p>
-    <p><small>{{ cs.form.consent }}</small></p>
-  </form>
+  <section class="lead">
+    <p v-if="done" class="thanks" role="status">{{ cs.form.thanks }}</p>
+    <form v-else novalidate @submit.prevent="submit">
+      <h2 class="heading">{{ cs.form.heading }}</h2>
+      <label :for="inputId" class="label">{{ cs.form.emailLabel }}</label>
+      <input
+        :id="inputId"
+        v-model="email"
+        class="field"
+        type="email"
+        name="email"
+        autocomplete="email"
+        inputmode="email"
+        required
+        :placeholder="cs.form.emailPlaceholder"
+        :aria-invalid="error === 'invalid_email'"
+        :aria-describedby="error ? `${inputId}-error` : undefined"
+        @focus="onFocus"
+      >
+      <div aria-hidden="true" class="trap">
+        <label :for="`${inputId}-website`">Web</label>
+        <input :id="`${inputId}-website`" v-model="website" type="text" name="website" tabindex="-1" autocomplete="off">
+      </div>
+      <p v-if="error" :id="`${inputId}-error`" class="error" role="alert">{{ cs.form.errors[error] }}</p>
+      <button type="submit" class="submit" :disabled="sending">{{ sending ? cs.form.sending : cs.form.submit }}</button>
+      <p class="small consent">{{ cs.form.consent }}</p>
+    </form>
+  </section>
 </template>
+
+<style scoped>
+.lead {
+  margin-top: var(--space-6);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--ink);
+}
+
+.heading {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.label {
+  display: block;
+  margin-top: var(--space-4);
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.field {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  margin-top: var(--space-1);
+  padding: 0 var(--space-3);
+  background: var(--field);
+  border: 1px solid var(--ink);
+  border-radius: var(--radius);
+}
+
+.field[aria-invalid='true'] {
+  border-color: var(--rust);
+  border-width: 2px;
+}
+
+.trap {
+  position: absolute;
+  left: -9999px;
+}
+
+.error {
+  margin-top: var(--space-2);
+  color: var(--rust);
+  font-size: 0.9375rem;
+}
+
+.submit {
+  display: block;
+  width: 100%;
+  min-height: 52px;
+  margin-top: var(--space-3);
+  background: var(--ink);
+  color: var(--paper);
+  border: 0;
+  border-radius: var(--radius);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.submit:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.consent {
+  margin-top: var(--space-3);
+}
+
+.thanks {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+}
+</style>

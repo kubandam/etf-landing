@@ -10,7 +10,9 @@ export function useCalculator() {
   const touched = useState<boolean>('calc-touched', () => false)
   const { pageFunds } = useEtfs()
 
-  const result = computed(() => (touched.value ? compareFunds(monthly.value, years.value, pageFunds) : null))
+  // Always computed so the hidden result can reserve its exact height before the first input.
+  const preview = computed(() => compareFunds(monthly.value, years.value, pageFunds))
+  const result = computed(() => (touched.value ? preview.value : null))
   const track = useTrack()
 
   /** Call from input handlers. The first call reveals the result and fires calc_change + calc_result once per page load. */
@@ -21,5 +23,5 @@ export function useCalculator() {
     track('calc_result', { monthly: monthly.value, years: years.value, feeGap: Math.round(result.value!.feeGap) })
   }
 
-  return { monthly, years, touched, result, onUserInput }
+  return { monthly, years, touched, result, preview, onUserInput }
 }

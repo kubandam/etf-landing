@@ -1,25 +1,37 @@
 /** All visible Czech text. Shared so the server e-mail uses the same strings. */
 export const cs = {
+  meta: {
+    title: 'Kolik vám poplatky ETF seberou? Kalkulačka S&P 500',
+    description:
+      'Spočítejte si, kolik vás za 5 až 30 let stojí poplatky fondů SPY, VOO a IVV. Výsledek v korunách, s vašimi čísly.',
+  },
+  hero: {
+    kicker: 'S&P 500 ETF · poplatky v Kč',
+    headline: { a: 'Kolik vám poplatky seberou za 20 let?' },
+  },
   calc: {
-    heading: 'Spočítejte si, kolik vás stojí poplatky',
     monthlyLabel: 'Kolik měsíčně investujete',
     yearsLabel: 'Jak dlouho',
-    yearsOption: (y: number) => `${y} let`,
-    resultHeading: (years: number) => `Kolik budete mít za ${years} let`,
-    feeGap: (gap: string, cheapest: string, priciest: string) =>
-      `Rozdíl mezi nejlevnějším (${cheapest}) a nejdražším (${priciest}) fondem: ${gap}.`,
-    terLabel: (ter: string) => `poplatek ${ter} % ročně`,
+    yearsOption: (y: number) => `${y}`,
+    yearsUnit: 'let',
+    hint: 'Kolik vám poplatky vezmou? Posuňte částku.',
+    resultHeading: (years: number) => `Za ${years} let budete mít`,
+    feeLine: (ter: string, paid: string) => `poplatek ${ter} % · zaplatíte ${paid}`,
+    gapLabel: (years: number) => `Rozdíl za ${years} let`,
+    gapWho: (cheapest: string, priciest: string) => `${cheapest} oproti ${priciest}`,
     assumption: (pct: number) =>
       `Předpoklad: výnos ${pct} % ročně před poplatky, vklad na konci každého měsíce. Bez daní a poplatků brokera. Skutečný výnos bude jiný.`,
+    source: (date: string) => `Poplatky ze stránek správců fondů, ověřeno ${date}.`,
   },
   form: {
-    heading: 'Pošleme vám celé srovnání se všemi fondy a vašimi čísly',
+    heading:
+      'Pošleme vám porovnání všech 4 fondů včetně evropských variant, které koupíte u českého brokera, s vašimi čísly.',
     emailLabel: 'Váš e-mail',
     emailPlaceholder: 'jan@email.cz',
-    submit: 'Poslat srovnání',
+    submit: 'Poslat porovnání',
     sending: 'Odesílám…',
     consent:
-      'Odesláním souhlasíte se zpracováním e-mailu, abychom vám poslali srovnání. Nic dalšího vám bez souhlasu posílat nebudeme a e-mail můžete kdykoli nechat smazat. Nejde o investiční doporučení.',
+      'Odesláním souhlasíte se zpracováním e-mailu, abychom vám poslali porovnání. Nic dalšího vám bez souhlasu posílat nebudeme a e-mail můžete kdykoli nechat smazat. Nejde o investiční doporučení.',
     errors: {
       invalid_email: 'Zkontrolujte prosím e-mail, takhle ho neumíme použít.',
       invalid_input: 'Něco se pokazilo. Zkuste prosím obnovit stránku.',
@@ -29,3 +41,9 @@ export const cs = {
     thanks: 'Děkujeme.',
   },
 } as const
+
+/** "2026-10-14" → "14. 10. 2026" (Czech date, no leading zeros, NBSP so it never wraps). */
+export function formatCsDate(iso: string): string {
+  const [y, m, d] = iso.split('-').map(Number)
+  return `${d}.\u00a0${m}.\u00a0${y}`
+}
