@@ -190,6 +190,7 @@ Tools: Claude Code for implementation, Claude (chat) for discussing the approach
 | ?v=a / ?v=b did not switch the headline, only the analytics property                            | Found when I asked the agent to check it          | Fixed and covered by a test                                                                  |
 | Performance 71 in Lighthouse: PostHog loaded before the page                                    | Lighthouse                                        | PostHog loads after the page, events queue; now 92                                           |
 | The form could be used to flood any inbox with e-mails                                          | Security review by a separate agent               | Limit per address; the second review found a race condition, fixed with one atomic DB update |
+| NUXT_MAIL_FROM had no angle brackets and used an unverifiable vercel.app domain | Agent tested against Resend's test address | Verified mail.kubandam.dev |
 
 ## 13. What is missing
 
@@ -197,7 +198,6 @@ Tools: Claude Code for implementation, Claude (chat) for discussing the approach
 - A privacy policy page. The consent sentence promises deletion on request, and today that is a manual step (the visitor replies to the e-mail). Nobody with legal training has checked the consent text.
 - Automatic data refresh. The values are checked by hand. With more time I would add a script that fetches the issuer pages once a month and opens a pull request when a value changes.
 - No real traffic yet, so the conversion estimate in section 9 and the A/B hypotheses in section 10 are untested. Only the headline variant can be switched today (by URL); hypotheses 1 and 3 need their variants built first.
-- The comparison e-mail is not delivered in production yet. The sender is on `etf-landing-tau.vercel.app`, and Resend only sends from a domain verified with DNS records, which a `vercel.app` address cannot have. The lead is saved and the thank-you screen shows the comparison, as designed for a failed e-mail. It needs a domain I own, verified in Resend.
 - No double opt-in. One address gets at most one e-mail per 10 minutes, but someone could still submit many different addresses once each.
 
 ## 14. Run locally
@@ -223,6 +223,7 @@ Environment variables (see [`.env.example`](./.env.example)):
 | `NUXT_PUBLIC_POSTHOG_HOST`  | `https://eu.i.posthog.com`                                                       |
 | `NUXT_RESEND_API_KEY`       | Resend API key, server only. Empty = no e-mail, the rest works                   |
 | `NUXT_MAIL_FROM`            | Sender on a domain verified in Resend, e.g. `Porovnání ETF <porovnani@example.cz>` |
+| `NUXT_MAIL_REPLY_TO`        | Inbox for replies to the e-mail (people reply to get their address deleted)    |
 
 Database: run [`supabase/leads.sql`](./supabase/leads.sql) once in the Supabase SQL editor. A database created before the e-mail limit also needs [`supabase/002-emailed-at.sql`](./supabase/002-emailed-at.sql).
 
