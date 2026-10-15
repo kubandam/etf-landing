@@ -109,7 +109,7 @@ Funnel: `page_view` → `calc_change` → `form_focus` → `form_submit` → `th
 
 ![Funnel in PostHog](docs/funnel.png)
 
-Test run on localhost: 2 page views, 1 full path to thankyou_view.
+The screenshot is from production. The earlier six-step funnel from my test run on localhost (2 page views, 1 full path to thankyou_view, with `calc_result` still in it) is in [`docs/funnel_old.png`](./docs/funnel_old.png).
 
 Leads are stored in Supabase (table `leads`: e-mail, monthly amount, years, ad variant, created_at, updated_at, emailed_at). A repeat submit with the same e-mail updates the row.
 
@@ -173,6 +173,7 @@ Tools: Claude Code for implementation, Claude (chat) for discussing the approach
 - The calculator against an independent calculation. I verified it in a separate Claude chat with the FV formula and a month-by-month loop: 3 000 Kč a month, 20 years, TER 0.03 % gives 1 517 433 Kč. The same case is a unit test, "matches independent calculation" in [`shared/utils/feeCalc.test.ts`](./shared/utils/feeCalc.test.ts).
 - The form submitted for real, then the row in Supabase, including a repeat submit that updated the same row.
 - Every funnel event in PostHog.
+- The live page on my phone (iPhone, Safari): both ad variants, result on load, form, thank-you screen, comparison e-mail delivered with working reply-to.
 - Lighthouse on mobile, production build: Performance 92, Accessibility 100, Best Practices 100, SEO 100.
 - The Czech texts read by me. I rewrote the ones I did not like, for example the line above the form, the button text and the hint before the first change.
 
@@ -198,7 +199,6 @@ Tools: Claude Code for implementation, Claude (chat) for discussing the approach
 
 ## 13. What is missing
 
-- Tested on my phone (iPhone, Safari): both ad variants, result on load, form, thank-you screen, comparison e-mail delivered with working reply-to.
 - A privacy policy page. The consent sentence promises deletion on request, and today that is a manual step (the visitor replies to the e-mail). Nobody with legal training has checked the consent text.
 - Automatic data refresh. The values are checked by hand. With more time I would add a script that fetches the issuer pages once a month and opens a pull request when a value changes.
 - No real traffic yet, so the conversion estimate in section 9 and the A/B hypotheses in section 10 are untested. Only the headline variant can be switched today (by URL); hypotheses 1 and 3 need their variants built first.
