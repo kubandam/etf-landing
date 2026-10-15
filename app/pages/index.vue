@@ -16,6 +16,7 @@ onMounted(() => track('page_view', { variant }))
     <Calculator />
     <LeadForm placement="top" />
     <CompareTable :funds="pageFunds" />
+    <HowToBuy />
   </main>
 </template>
 

@@ -33,6 +33,16 @@ export const cs = {
     ucits: 'Evropská verze',
     ucitsLine: (ticker: string, ter: string) => `${ticker} · poplatek ${ter}`,
   },
+  howToBuy: {
+    heading: 'Jak to koupit z Česka',
+    points: [
+      'Americké fondy jako SPY, VOO nebo IVV vám evropský broker většinou neprodá. Chybí jim KID, povinný dokument pro drobné investory v EU.',
+      'Proto se kupuje evropská (UCITS) verze. Sleduje stejný index S&P 500, jen je založená v Irsku:',
+      'Koupíte je u běžných brokerů dostupných z Česka. Hledejte podle ISIN, ticker se mezi burzami může lišit.',
+    ],
+    mapping: (us: string, ucits: string) => `${us} → ${ucits}`,
+    isin: 'ISIN',
+  },
   form: {
     heading:
       'Pošleme vám porovnání všech 4 fondů včetně evropských variant, které koupíte u českého brokera, s vašimi čísly.',
