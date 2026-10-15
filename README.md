@@ -109,8 +109,6 @@ Funnel: `page_view` → `calc_change` → `form_focus` → `form_submit` → `th
 
 ![Funnel in PostHog](docs/funnel.png)
 
-The screenshot is from the earlier six-step funnel, which still had `calc_result` between `calc_change` and `form_focus`.
-
 Test run on localhost: 2 page views, 1 full path to thankyou_view.
 
 Leads are stored in Supabase (table `leads`: e-mail, monthly amount, years, ad variant, created_at, updated_at, emailed_at). A repeat submit with the same e-mail updates the row.
@@ -196,10 +194,11 @@ Tools: Claude Code for implementation, Claude (chat) for discussing the approach
 | The form could be used to flood any inbox with e-mails                                          | Security review by a separate agent               | Limit per address; the second review found a race condition, fixed with one atomic DB update |
 | NUXT_MAIL_FROM had no angle brackets and used an unverifiable vercel.app domain | Agent tested against Resend's test address | Verified mail.kubandam.dev |
 | Result was hidden until first input, leaving an empty first screen | I noticed it on the live page | Shown on load, funnel event changed |
+| My test runs sent localhost events to PostHog because the blocking pattern was wrong | Agent noticed and reported it | Funnel filters out localhost |
 
 ## 13. What is missing
 
-- Real phone test. Tested on my phone: …
+- Tested on my phone (iPhone, Safari): both ad variants, result on load, form, thank-you screen, comparison e-mail delivered with working reply-to.
 - A privacy policy page. The consent sentence promises deletion on request, and today that is a manual step (the visitor replies to the e-mail). Nobody with legal training has checked the consent text.
 - Automatic data refresh. The values are checked by hand. With more time I would add a script that fetches the issuer pages once a month and opens a pull request when a value changes.
 - No real traffic yet, so the conversion estimate in section 9 and the A/B hypotheses in section 10 are untested. Only the headline variant can be switched today (by URL); hypotheses 1 and 3 need their variants built first.
