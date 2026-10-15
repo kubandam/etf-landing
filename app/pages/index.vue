@@ -3,6 +3,7 @@ import { cs } from '#shared/content/cs'
 
 const variant = useVariant()
 const track = useTrack()
+const { pageFunds } = useEtfs()
 onMounted(() => track('page_view', { variant }))
 </script>
 
@@ -14,6 +15,7 @@ onMounted(() => track('page_view', { variant }))
     </header>
     <Calculator />
     <LeadForm placement="top" />
+    <CompareTable :funds="pageFunds" />
   </main>
 </template>
 

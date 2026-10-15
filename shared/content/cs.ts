@@ -23,6 +23,16 @@ export const cs = {
       `Předpoklad: výnos ${pct} % ročně před poplatky, vklad na konci každého měsíce. Bez daní a poplatků brokera. Skutečný výnos bude jiný.`,
     source: (date: string) => `Poplatky ze stránek správců fondů, ověřeno ${date}.`,
   },
+  compare: {
+    heading: 'Tři fondy, jeden index',
+    intro: 'Všechny tři kopírují S&P 500. Liší se poplatkem a velikostí, ne tím, co držíte.',
+    ter: 'Poplatek (TER)',
+    size: 'Velikost fondu',
+    yield: 'Dividendový výnos',
+    yieldNote: '30denní SEC',
+    ucits: 'Evropská verze',
+    ucitsLine: (ticker: string, ter: string) => `${ticker} · poplatek ${ter}`,
+  },
   form: {
     heading:
       'Pošleme vám porovnání všech 4 fondů včetně evropských variant, které koupíte u českého brokera, s vašimi čísly.',
