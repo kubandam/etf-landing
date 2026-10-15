@@ -13,7 +13,8 @@ const email = ref('')
 const website = ref('') // honeypot
 const sending = ref(false)
 const error = ref<ErrorKey | null>(null)
-const done = ref(false)
+// Shared by both form instances: after one submit, neither asks again.
+const done = useState('lead-done', () => false)
 
 const inputId = `lead-email-${props.placement}`
 
