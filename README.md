@@ -162,13 +162,13 @@ Tools: Claude Code for implementation, Claude (chat) for discussing the approach
 - Calculator: slider 500–20 000 CZK, years 5/10/20/30, 7 % assumption shown next to the result, result hidden until the first change, calculation as a pure function with unit tests. Export: [`ai-log/04-lead-form.md`](./ai-log/04-lead-form.md).
 - Form and leads: one e-mail field, consent sentence under the button, upsert on a repeated e-mail, amount, years and ad version from the calculator state, Supabase table `leads`. Export: [`ai-log/04-lead-form.md`](./ai-log/04-lead-form.md).
 - Analytics: PostHog EU, the six events from section 8, no cookie banner, no personal data in events. Export: [`ai-log/05-analytics.md`](./ai-log/05-analytics.md).
-- Design: propose a visual direction in a few lines first (no gradients, no emoji icons, no stock hero), build only after I approved it, then self-hosted fonts, the comparison, "how to buy from CZ", second form and footer, and a Lighthouse run. Export: not in `/ai-log` yet.
-- Launch: headline per ad version, thank-you screen with all 4 funds, the e-mail via Resend, ad texts in `/ads`, push and deploy. Export: not in `/ai-log` yet.
+- Design: propose a visual direction in a few lines first (no gradients, no emoji icons, no stock hero), build only after I approved it, then self-hosted fonts, the comparison, "how to buy from CZ", second form and footer, and a Lighthouse run. Export: [`ai-log/06-design-and-launch.md`](./ai-log/06-design-and-launch.md).
+- Launch: headline per ad version, thank-you screen with all 4 funds, the e-mail via Resend, ad texts in `/ads`, push and deploy. Export: [`ai-log/06-design-and-launch.md`](./ai-log/06-design-and-launch.md).
 
 **How I checked the output.**
 
 - Every number in `/data/etfs.json` against the issuer page saved as PDF, by hand.
-- The calculator against an independent calculation: 1 517 433 Kč for VOO and IVV at 3 000 Kč a month for 20 years.
+- The calculator against an independent calculation. I verified it in a separate Claude chat with the FV formula and a month-by-month loop: 3 000 Kč a month, 20 years, TER 0.03 % gives 1 517 433 Kč. The same case is a unit test, "matches independent calculation" in [`shared/utils/feeCalc.test.ts`](./shared/utils/feeCalc.test.ts).
 - The form submitted for real, then the row in Supabase, including a repeat submit that updated the same row.
 - All six events in PostHog.
 - Lighthouse on mobile, production build: Performance 92, Accessibility 100, Best Practices 100, SEO 100.
@@ -197,7 +197,7 @@ Tools: Claude Code for implementation, Claude (chat) for discussing the approach
 - A privacy policy page. The consent sentence promises deletion on request, and today that is a manual step (the visitor replies to the e-mail). Nobody with legal training has checked the consent text.
 - Automatic data refresh. The values are checked by hand. With more time I would add a script that fetches the issuer pages once a month and opens a pull request when a value changes.
 - No real traffic yet, so the conversion estimate in section 9 and the A/B hypotheses in section 10 are untested. Only the headline variant can be switched today (by URL); hypotheses 1 and 3 need their variants built first.
-- The calculator test that compares against my own spreadsheet row is still an empty placeholder in `shared/utils/feeCalc.test.ts`. The formula is covered by the other tests and the independent calculation in section 12.
+- The comparison e-mail is not delivered in production yet. The sender is on `etf-landing-tau.vercel.app`, and Resend only sends from a domain verified with DNS records, which a `vercel.app` address cannot have. The lead is saved and the thank-you screen shows the comparison, as designed for a failed e-mail. It needs a domain I own, verified in Resend.
 - No double opt-in. One address gets at most one e-mail per 10 minutes, but someone could still submit many different addresses once each.
 
 ## 14. Run locally
