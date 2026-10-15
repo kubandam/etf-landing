@@ -11,6 +11,15 @@ export function useCalculator() {
   const { pageFunds } = useEtfs()
 
   const result = computed(() => (touched.value ? compareFunds(monthly.value, years.value, pageFunds) : null))
+  const track = useTrack()
 
-  return { monthly, years, touched, result }
+  /** Call from input handlers. The first call reveals the result and fires calc_change + calc_result once per page load. */
+  function onUserInput(field: 'monthly' | 'years') {
+    if (touched.value) return
+    touched.value = true
+    track('calc_change', { field })
+    track('calc_result', { monthly: monthly.value, years: years.value, feeGap: Math.round(result.value!.feeGap) })
+  }
+
+  return { monthly, years, touched, result, onUserInput }
 }

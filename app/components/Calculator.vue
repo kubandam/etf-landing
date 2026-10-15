@@ -2,7 +2,7 @@
 import { cs } from '#shared/content/cs'
 import { MONTHLY, YEARS, formatCzk } from '#shared/utils/feeCalc'
 
-const { monthly, years, touched } = useCalculator()
+const { monthly, years, onUserInput } = useCalculator()
 </script>
 
 <template>
@@ -17,14 +17,14 @@ const { monthly, years, touched } = useCalculator()
       :min="MONTHLY.min"
       :max="MONTHLY.max"
       :step="MONTHLY.step"
-      @input="touched = true"
+      @input="onUserInput('monthly')"
     >
     <output for="calc-monthly">{{ formatCzk(monthly) }}</output>
 
     <fieldset>
       <legend>{{ cs.calc.yearsLabel }}</legend>
       <label v-for="y in YEARS" :key="y">
-        <input v-model="years" type="radio" name="calc-years" :value="y" @change="touched = true">
+        <input v-model="years" type="radio" name="calc-years" :value="y" @change="onUserInput('years')">
         {{ cs.calc.yearsOption(y) }}
       </label>
     </fieldset>

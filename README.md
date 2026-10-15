@@ -92,20 +92,23 @@ Keeping it up to date in production: a script that fetches the issuer pages once
 
 ## 8. Measurement
 
-Tool: TODO (PostHog / Plausible), because it is free for this volume and has a funnel view.
-
-| Step | Event           | Fired when                                   |
+Tool: PostHog (EU cloud, free tier, funnel view). Nothing is stored in the browser (no cookies, no local or session storage), so no cookie banner is needed. That would cost the first screen on mobile. The trade-off: a reload counts as a new visitor, so the funnel only counts paths finished without reloading. IP addresses are discarded in the project settings, and no e-mail is sent in events.
+| Step | Event | Fired when |
 | ---- | --------------- | -------------------------------------------- |
-| 1    | `page_view`     | page loads, with the ad version from the URL |
-| 2    | `calc_change`   | first change of a calculator input           |
-| 3    | `calc_result`   | result is shown                              |
-| 4    | `form_focus`    | user taps into the e-mail field              |
-| 5    | `form_submit`   | form sent and lead saved                     |
-| 6    | `thankyou_view` | thank-you screen shown                       |
+| 1 | `page_view` | page loads, with the ad version from the URL |
+| 2 | `calc_change` | first change of a calculator input |
+| 3 | `calc_result` | result is shown |
+| 4 | `form_focus` | user taps into the e-mail field |
+| 5 | `form_submit` | form sent and lead saved |
+| 6 | `thankyou_view` | thank-you screen shown |
 
-Leads are stored in TODO (Supabase table `leads`: e-mail, amount, years, ad version, created_at).
+![Funnel in PostHog](docs/funnel.png)
 
-How I verified it: TODO (opened the page on my phone, went through the whole path, checked the events in the analytics dashboard and the row in the database).
+Test run on localhost: 2 page views, 1 full path to thankyou_view. ...
+
+Leads are stored in Leads are stored in Supabase (table leads: e-mail, monthly amount, years, ad variant, created_at, updated_at). A repeat submit with the same e-mail updates the row.
+
+How I verified it: Went through the whole path on localhost with ?v=b, checked all six events in PostHog Activity and the row in Supabase.
 
 ## 9. Expected conversion
 

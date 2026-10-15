@@ -17,6 +17,14 @@ const done = ref(false)
 
 const inputId = `lead-email-${props.placement}`
 
+const track = useTrack()
+let focused = false
+function onFocus() {
+  if (focused) return
+  focused = true
+  track('form_focus', { placement: props.placement })
+}
+
 async function submit() {
   if (sending.value) return
   sending.value = true
@@ -27,6 +35,9 @@ async function submit() {
       body: { email: email.value, monthly: monthly.value, years: years.value, variant, website: website.value },
     })
     done.value = true
+    track('form_submit', { placement: props.placement, variant, emailed: res.emailed })
+    // Inline "Děkujeme" is the thank-you screen until step 7 replaces it.
+    track('thankyou_view', { placement: props.placement, variant, emailed: res.emailed })
     emit('submitted', { emailed: res.emailed })
   }
   catch (e: any) {
@@ -53,6 +64,7 @@ async function submit() {
       inputmode="email"
       required
       :placeholder="cs.form.emailPlaceholder"
+      @focus="onFocus"
       :aria-invalid="error === 'invalid_email'"
       :aria-describedby="error ? `${inputId}-error` : undefined"
     >
