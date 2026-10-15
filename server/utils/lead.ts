@@ -35,3 +35,12 @@ export function parseLead(body: unknown): Lead {
 
   return { email: email.data, ...input.data, variant: normalizeVariant(b.variant) }
 }
+
+/** One comparison e-mail per address per this window, so the form can't be used to flood someone's inbox. */
+export const EMAIL_COOLDOWN_MS = 10 * 60 * 1000
+
+/** `previousUpdatedAt` = updated_at of the existing row before this submit, or null for a new address. */
+export function emailCooldownActive(previousUpdatedAt: string | null, now = new Date()): boolean {
+  if (!previousUpdatedAt) return false
+  return now.getTime() - new Date(previousUpdatedAt).getTime() < EMAIL_COOLDOWN_MS
+}

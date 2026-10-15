@@ -23,10 +23,12 @@ export async function sendComparisonEmail(lead: Lead): Promise<boolean> {
 
   const { subject, html, text } = comparisonEmail(lead, (data as EtfData).funds)
   try {
-    const timeout = new Promise<never>((_, reject) =>
-      setTimeout(() => reject(new Error(`timeout after ${SEND_TIMEOUT_MS} ms`)), SEND_TIMEOUT_MS),
-    )
+    let timer: ReturnType<typeof setTimeout> | undefined
+    const timeout = new Promise<never>((_, reject) => {
+      timer = setTimeout(() => reject(new Error(`timeout after ${SEND_TIMEOUT_MS} ms`)), SEND_TIMEOUT_MS)
+    })
     const { error } = await Promise.race([client.emails.send({ from: mailFrom, to: lead.email, subject, html, text }), timeout])
+      .finally(() => clearTimeout(timer))
     if (error) {
       console.error(`[email] Resend error: ${error.name} ${error.statusCode ?? ''} ${error.message}`)
       return false

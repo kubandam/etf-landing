@@ -1,4 +1,4 @@
-import { LeadError, parseLead } from '../utils/lead'
+import { LeadError, emailCooldownActive, parseLead } from '../utils/lead'
 import { sendComparisonEmail } from '../utils/resend'
 import { upsertLead } from '../utils/supabase'
 
@@ -20,8 +20,9 @@ export default defineEventHandler(async (event) => {
     return { ok: false, error: e instanceof LeadError ? e.code : 'invalid_input' }
   }
 
+  let previousUpdatedAt: string | null
   try {
-    await upsertLead(lead)
+    previousUpdatedAt = await upsertLead(lead)
   }
   catch (e) {
     // Lead not saved: tell the client so the user can retry instead of a false "thank you".
@@ -31,7 +32,9 @@ export default defineEventHandler(async (event) => {
   }
 
   // Only after the lead is saved. A failed e-mail never fails the request.
-  const emailed = await sendComparisonEmail(lead)
+  let emailed = false
+  if (emailCooldownActive(previousUpdatedAt)) console.warn('[email] skipped: same address submitted within the cooldown')
+  else emailed = await sendComparisonEmail(lead)
 
   setResponseStatus(event, 201)
   return { ok: true, emailed }
