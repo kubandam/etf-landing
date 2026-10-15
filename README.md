@@ -175,6 +175,11 @@ Tools: Claude Code for implementation, Claude (chat) for discussing the approach
 - Every funnel event in PostHog.
 - The live page on my phone (iPhone, Safari): both ad variants, result on load, form, thank-you screen, comparison e-mail delivered with working reply-to.
 - Lighthouse on mobile, production build: Performance 92, Accessibility 100, Best Practices 100, SEO 100.
+- Live site on Vercel, 7 runs: median 91 (78–99, the 78 was a cold first run), accessibility, best practices and SEO 100.
+
+  ![Lighthouse on the live site](docs/performance.png)
+
+  One of my own Lighthouse runs on the live site: 98 / 100 / 100 / 100.
 - The Czech texts read by me. I rewrote the ones I did not like, for example the line above the form, the button text and the hint before the first change.
 
 **Where the AI got it wrong.**
@@ -238,7 +243,7 @@ Database: run [`supabase/leads.sql`](./supabase/leads.sql) once in the Supabase 
 /ai-log     exported Claude Code conversations
 /app        Nuxt app: page, components, composables, PostHog plugin, CSS
 /data       ETF data with sources and dates
-/docs       funnel screenshot
+/docs       funnel and Lighthouse screenshots
 /public     self-hosted fonts
 /scripts    data check that runs before every build
 /server     API route for leads, Supabase, e-mail template and Resend
