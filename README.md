@@ -40,12 +40,12 @@ What makes him leave in 3 seconds: a wall of text, a form before any value, anyt
 
 Two versions with two different promises. The first screen of the page uses the same promise as the ad the visitor came from.
 
-|                      | Version A: fees                                                                 | Version B: choice                                                                 |
-| -------------------- | ------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
-| Promise              | Fees cost you more than you think                                               | Which S&P 500 ETF should you buy                                                  |
-| Headline             | Kolik vám poplatky ETF seberou za 20 let?                                       | Který S&P 500 ETF si vybrat?                                                      |
-| Text                 | Spočítejte si to za 10 vteřin. Rozdíl mezi fondy je v řádu desítek tisíc korun. | Tři nejznámější fondy, stejný index, jiné poplatky. Porovnání na jedné obrazovce. |
-| Headline on the page | Kolik vám poplatky seberou za 20 let?                                           | Který S&P 500 ETF? Spočítejte si rozdíl.                                          |
+|                      | Version A: fees                                                  | Version B: choice                                                                 |
+| -------------------- | ---------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| Promise              | You see what the fee costs you in CZK, not in percent           | Same index in all three, so the only real difference is the fee                   |
+| Headline (ad + page) | Kolik vás stojí poplatek ETF? U SPY za 20 let přes 16 000 Kč.    | Který S&P 500 ETF si vybrat? Stejný index, jiné poplatky.                          |
+
+Ad and page use the same headline word for word. The 16 000 Kč in A is SPY's fees at the calculator defaults (3 000 Kč a month, 20 years), computed from `/data/etfs.json` and rounded down; a unit test fails if the data ever changes it.
 
 The page reads the `?v=a` / `?v=b` URL parameter and switches the headline. Default without the parameter is version A. Full ad texts are in [`/ads`](./ads).
 

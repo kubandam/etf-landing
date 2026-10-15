@@ -7,7 +7,17 @@ export const cs = {
   },
   hero: {
     kicker: 'S&P 500 ETF · poplatky v Kč',
-    headline: { a: 'Kolik vám poplatky seberou za 20 let?' },
+    // Each headline = question + one short fact line. Must match the ad the visitor came from (README §4).
+    headline: {
+      a: {
+        question: 'Kolik vás stojí poplatek ETF?',
+        fact: (ticker: string, years: number, amount: string) => `U ${ticker} za ${years} let přes ${amount}.`,
+      },
+      b: {
+        question: 'Který S&P 500 ETF si vybrat?',
+        fact: () => 'Stejný index, jiné poplatky.',
+      },
+    },
   },
   calc: {
     monthlyLabel: 'Kolik měsíčně investujete',

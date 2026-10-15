@@ -46,7 +46,7 @@ const { monthly, years, onUserInput } = useCalculator()
 
 <style scoped>
 .calc {
-  margin-top: var(--space-5);
+  margin-top: var(--space-4);
 }
 
 .label {

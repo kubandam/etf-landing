@@ -52,7 +52,7 @@ const tickersAt = (value: number) => shown.value.rows.filter(r => r.endValue ===
 <style scoped>
 .result {
   position: relative;
-  margin-top: var(--space-5);
+  margin-top: var(--space-4);
   border-top: 1px solid var(--ink);
   padding-top: var(--space-3);
 }
