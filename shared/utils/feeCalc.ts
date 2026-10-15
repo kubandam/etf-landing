@@ -67,6 +67,25 @@ export function compareFunds(monthly: number, years: number, funds: Etf[]): Comp
   return { rows, feeGap }
 }
 
+export interface FullRow extends CompareRow {
+  ucits: { ticker: string; isin: string; terPct: number; endValue: number; feesPaid: number }
+}
+
+/** Every fund and its UCITS version for the visitor's numbers (thank-you screen and e-mail). Sorted like compareFunds. */
+export function compareAll(monthly: number, years: number, funds: Etf[]): FullRow[] {
+  const { annualReturnPct } = CALC_ASSUMPTIONS
+  const noFee = endValue({ monthly, years, annualReturnPct, terPct: 0 })
+  const byTicker = new Map(funds.map(f => [f.ticker, f]))
+  return compareFunds(monthly, years, funds).rows.map((row) => {
+    const u = byTicker.get(row.ticker)!.ucits
+    const value = endValue({ monthly, years, annualReturnPct, terPct: u.terPct.value })
+    return {
+      ...row,
+      ucits: { ticker: u.ticker, isin: u.isin.value, terPct: u.terPct.value, endValue: value, feesPaid: noFee - value },
+    }
+  })
+}
+
 const czk = new Intl.NumberFormat('cs-CZ', { style: 'currency', currency: 'CZK', maximumFractionDigits: 0 })
 
 /** "1 234 567 Kč" with NBSP separators, whole crowns. */

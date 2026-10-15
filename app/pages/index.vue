@@ -5,6 +5,7 @@ import { headline } from '#shared/content/headline'
 const variant = useVariant()
 const track = useTrack()
 const { pageFunds } = useEtfs()
+const submitted = useLead()
 // Read during setup, so the server-rendered HTML already has the right headline (no flash).
 const h = headline(variant, pageFunds)
 onMounted(() => track('page_view', { variant }))
@@ -20,10 +21,12 @@ onMounted(() => track('page_view', { variant }))
       </h1>
     </header>
     <Calculator />
-    <LeadForm placement="top" />
+    <ThankYou v-if="submitted?.placement === 'top'" />
+    <LeadForm v-else-if="!submitted" placement="top" />
     <CompareTable :funds="pageFunds" />
     <HowToBuy />
-    <LeadForm placement="bottom" />
+    <ThankYou v-if="submitted?.placement === 'bottom'" />
+    <LeadForm v-else-if="!submitted" placement="bottom" />
     <SiteFooter />
   </main>
 </template>

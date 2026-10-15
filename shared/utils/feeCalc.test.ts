@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import type { Etf } from '../types/etf'
-import { CALC_ASSUMPTIONS, MONTHLY, YEARS, compareFunds, endValue, formatCzk } from './feeCalc'
+import { CALC_ASSUMPTIONS, MONTHLY, YEARS, compareAll, compareFunds, endValue, formatCzk } from './feeCalc'
 
 /** Minimal Etf with only the fields the calculator reads. */
 function fund(ticker: string, terPct: number): Etf {
@@ -103,5 +103,26 @@ describe('formatCzk', () => {
 
   test('rounds to whole crowns', () => {
     expect(formatCzk(999.6)).toBe('1 000 Kč')
+  })
+})
+
+describe('compareAll', () => {
+  const funds = [fund('SPY', 0.0945), fund('VOO', 0.03)]
+  funds[0]!.ucits.terPct.value = 0.03
+  funds[1]!.ucits.terPct.value = 0.07
+
+  test('US and UCITS rows use their own TER', () => {
+    const rows = compareAll(3000, 20, funds)
+    const r = CALC_ASSUMPTIONS.annualReturnPct
+    const spy = rows.find(x => x.ticker === 'SPY')!
+    expect(spy.endValue).toBe(endValue({ monthly: 3000, years: 20, annualReturnPct: r, terPct: 0.0945 }))
+    expect(spy.ucits.endValue).toBe(endValue({ monthly: 3000, years: 20, annualReturnPct: r, terPct: 0.03 }))
+    expect(spy.ucits.feesPaid).toBeLessThan(spy.feesPaid)
+  })
+
+  test('sorted by US end value desc, US numbers equal compareFunds', () => {
+    const rows = compareAll(3000, 20, funds)
+    const cf = compareFunds(3000, 20, funds).rows
+    expect(rows.map(x => [x.ticker, x.endValue])).toEqual(cf.map(x => [x.ticker, x.endValue]))
   })
 })

@@ -76,7 +76,15 @@ export const cs = {
       storage: 'E-mail se nepodařilo uložit. Zkuste to prosím za chvíli znovu.',
       network: 'Nepodařilo se spojit se serverem. Zkontrolujte připojení a zkuste to znovu.',
     },
-    thanks: 'Děkujeme.',
+  },
+  thanks: {
+    heading: 'Děkujeme. Tady je celé porovnání.',
+    restate: (monthly: string, years: number) => `Pro ${monthly} měsíčně po dobu ${years} let.`,
+    emailed: 'Stejné porovnání jsme vám poslali e-mailem.',
+    notEmailed: 'E-mail se teď nepodařilo odeslat, porovnání máte tady.',
+    usLabel: 'Americký fond',
+    ucitsLabel: 'Evropská verze (UCITS)',
+    feeLine: (ter: string, paid: string) => `poplatek ${ter} · zaplatíte ${paid}`,
   },
 } as const
 

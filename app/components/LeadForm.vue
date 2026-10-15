@@ -13,8 +13,7 @@ const email = ref('')
 const website = ref('') // honeypot
 const sending = ref(false)
 const error = ref<ErrorKey | null>(null)
-// Shared by both form instances: after one submit, neither asks again.
-const done = useState('lead-done', () => false)
+const submitted = useLead()
 
 const inputId = `lead-email-${props.placement}`
 
@@ -35,10 +34,9 @@ async function submit() {
       method: 'POST',
       body: { email: email.value, monthly: monthly.value, years: years.value, variant, website: website.value },
     })
-    done.value = true
     track('form_submit', { placement: props.placement, variant, emailed: res.emailed })
-    // Inline "Děkujeme" is the thank-you screen until step 7 replaces it.
-    track('thankyou_view', { placement: props.placement, variant, emailed: res.emailed })
+    // Snapshot the numbers the server got, so the thank-you screen matches the e-mail.
+    submitted.value = { placement: props.placement, monthly: monthly.value, years: years.value, emailed: res.emailed }
     emit('submitted', { emailed: res.emailed })
   }
   catch (e: any) {
@@ -53,8 +51,7 @@ async function submit() {
 
 <template>
   <section class="lead">
-    <p v-if="done" class="thanks" role="status">{{ cs.form.thanks }}</p>
-    <form v-else novalidate @submit.prevent="submit">
+    <form novalidate @submit.prevent="submit">
       <h2 class="heading">{{ cs.form.heading }}</h2>
       <label :for="inputId" class="label">{{ cs.form.emailLabel }}</label>
       <input
@@ -150,10 +147,5 @@ async function submit() {
 
 .consent {
   margin-top: var(--space-3);
-}
-
-.thanks {
-  font-family: var(--font-serif);
-  font-size: 1.5rem;
 }
 </style>
