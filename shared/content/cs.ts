@@ -43,6 +43,14 @@ export const cs = {
     mapping: (us: string, ucits: string) => `${us} → ${ucits}`,
     isin: 'ISIN',
   },
+  footer: {
+    sourcesHeading: 'Zdroje',
+    sourcesIntro: 'Údaje o fondech jsou ze stránek jejich správců, burza u VOO ze stránky NYSE.',
+    checked: (date: string) => `Data ověřena ${date}.`,
+    assumption: (pct: number) =>
+      `${pct} % ročně je zaokrouhlený předpoklad pro dlouhodobý výnos akciového indexu, ne předpověď: skutečný výnos může být vyšší i nižší a v jednotlivých letech i záporný.`,
+    notAdvice: 'Nejde o investiční doporučení.',
+  },
   form: {
     heading:
       'Pošleme vám porovnání všech 4 fondů včetně evropských variant, které koupíte u českého brokera, s vašimi čísly.',

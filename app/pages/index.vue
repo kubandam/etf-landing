@@ -18,6 +18,7 @@ onMounted(() => track('page_view', { variant }))
     <CompareTable :funds="pageFunds" />
     <HowToBuy />
     <LeadForm placement="bottom" />
+    <SiteFooter />
   </main>
 </template>
 
