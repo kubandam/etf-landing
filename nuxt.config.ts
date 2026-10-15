@@ -14,8 +14,9 @@ export default defineNuxtConfig({
         { name: 'description', content: cs.meta.description },
         { name: 'theme-color', content: '#f5f2eb' },
       ],
-      // Self-hosted fonts (no request to Google). All four files are used on the first screen.
-      link: ['plex-sans-latin', 'plex-sans-latin-ext', 'newsreader-500-latin', 'newsreader-500-latin-ext'].map(f => ({
+      // Self-hosted fonts (no request to Google). Preload only the basic Latin files;
+      // the latin-ext files (č, ř, ě, ů) are small and load as soon as the text needs them.
+      link: ['plex-sans-latin', 'newsreader-500-latin'].map(f => ({
         rel: 'preload',
         as: 'font',
         type: 'font/woff2',
@@ -23,6 +24,14 @@ export default defineNuxtConfig({
         crossorigin: '',
       })),
     },
+  },
+  nitro: {
+    // Pre-built gzip/brotli files, so compression does not depend on the host.
+    compressPublicAssets: true,
+  },
+  routeRules: {
+    // Font files never change; rename the file if they ever do.
+    '/fonts/**': { headers: { 'cache-control': 'public, max-age=31536000, immutable' } },
   },
   runtimeConfig: {
     // Server only. Set via NUXT_SUPABASE_URL / NUXT_SUPABASE_SERVICE_KEY.

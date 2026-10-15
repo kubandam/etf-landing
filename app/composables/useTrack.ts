@@ -3,13 +3,9 @@ export type EventName = 'page_view' | 'calc_change' | 'calc_result' | 'form_focu
 export type EventProps = Record<string, string | number | boolean>
 
 export function useTrack() {
-  const { $posthog } = useNuxtApp()
+  const { $track } = useNuxtApp()
   return (event: EventName, props?: EventProps) => {
     if (import.meta.server) return
-    if (!$posthog) {
-      console.debug('[track]', event, props ?? {})
-      return
-    }
-    $posthog.capture(event, props)
+    $track(event, props)
   }
 }
