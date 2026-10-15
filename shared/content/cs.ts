@@ -24,7 +24,6 @@ export const cs = {
     yearsLabel: 'Jak dlouho',
     yearsOption: (y: number) => `${y}`,
     yearsUnit: 'let',
-    hint: 'Kolik vám poplatky vezmou? Posuňte částku.',
     resultHeading: (years: number) => `Za ${years} let budete mít`,
     feeLine: (ter: string, paid: string) => `poplatek ${ter} % · zaplatíte ${paid}`,
     gapLabel: (years: number) => `Rozdíl za ${years} let`,

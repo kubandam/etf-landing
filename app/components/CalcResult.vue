@@ -2,13 +2,8 @@
 import { cs, formatCsDate } from '#shared/content/cs'
 import { CALC_ASSUMPTIONS, formatCzk } from '#shared/utils/feeCalc'
 
-const { result, preview, years } = useCalculator()
+const { result: shown, years } = useCalculator()
 const { dataCheckedDate } = useEtfs()
-
-// Before the first input the rows are rendered invisibly with the default numbers,
-// so the block already has its final height and nothing below jumps.
-const shown = computed(() => result.value ?? preview.value)
-const hidden = computed(() => !result.value)
 
 const ter = (pct: number) => pct.toLocaleString('cs-CZ', { maximumFractionDigits: 4 })
 // VOO and IVV share a TER, so "cheapest" can be more than one fund.
@@ -17,9 +12,7 @@ const tickersAt = (value: number) => shown.value.rows.filter(r => r.endValue ===
 
 <template>
   <div class="result" aria-live="polite">
-    <p v-if="hidden" class="hint">{{ cs.calc.hint }}</p>
-
-    <div class="sheet" :class="{ 'is-hidden': hidden }" :aria-hidden="hidden">
+    <div class="sheet">
       <h2 class="heading">{{ cs.calc.resultHeading(years) }}</h2>
       <ul class="rows">
         <li v-for="row in shown.rows" :key="row.ticker" class="row">
@@ -57,18 +50,7 @@ const tickersAt = (value: number) => shown.value.rows.filter(r => r.endValue ===
   padding-top: var(--space-3);
 }
 
-.sheet.is-hidden {
-  visibility: hidden;
-}
 
-.hint {
-  position: absolute;
-  inset: var(--space-5) 0 auto;
-  font-family: var(--font-serif);
-  font-size: 1.375rem;
-  line-height: 1.3;
-  color: var(--muted);
-}
 
 .heading {
   font-size: 0.875rem;

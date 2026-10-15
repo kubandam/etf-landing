@@ -54,7 +54,7 @@ The page reads the `?v=a` / `?v=b` URL parameter and switches the headline. Defa
 | #   | Section                                                          | What it does for the visitor                                                  | Why here                                                               |
 | --- | ---------------------------------------------------------------- | ----------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
 | 1   | Headline + calculator                                            | Continues the ad promise and gives him something to do in the first 3 seconds | He came for one thing, so it is the first thing on the screen          |
-| 2   | Result                                                           | Shows the end value and the fees paid in CZK for his own numbers              | This is the value. Everything before the form has to be earned here    |
+| 2   | Result                                                           | Shows the end value and the fees paid in CZK, visible on load for 3 000 CZK / 20 years, then for his own numbers | This is the value. Everything before the form has to be earned here    |
 | 3   | Form (e-mail only, consent sentence under the button)            | Offers the full comparison with his numbers                                   | Directly after the value, while the number is still on the screen      |
 | 4   | Short comparison (3 ETFs)                                        | Shows the data behind the calculator so the number is believable              | For people who did not fill the form yet and want to check the numbers |
 | 5   | How to buy from CZ                                               | Answers the next question he has: where do I buy it                           | Keeps him on the page instead of googling                              |
@@ -63,7 +63,7 @@ The page reads the `?v=a` / `?v=b` URL parameter and switches the headline. Defa
 
 ## 6. Interactive elements
 
-**Fee calculator** (sections 1 and 2). Two inputs: monthly amount (slider, 500 to 20 000 CZK, step 500) and years (5, 10, 20, 30). It shows the end value with each fund, the fees paid with each fund, and the difference between the cheapest and the most expensive one. The result appears after the first change of an input, and that first change is an event, so I can see how many people start.
+**Fee calculator** (sections 1 and 2). Two inputs: monthly amount (slider, 500 to 20 000 CZK, step 500) and years (5, 10, 20, 30). It shows the end value with each fund, the fees paid with each fund, and the difference between the cheapest and the most expensive one. The result is visible on load with 3 000 CZK and 20 years, so the first screen shows a number before he touches anything. The first change of an input is an event (`calc_change`), so I can see how many people try their own numbers.
 
 It leads to the contact because the result is only for 3 funds and the full comparison with the same numbers is behind the e-mail.
 
@@ -101,12 +101,15 @@ Tool: PostHog (EU cloud, free tier, funnel view). Nothing is stored in the brows
 | ---- | --------------- | -------------------------------------------- |
 | 1    | `page_view`     | page loads, with the ad version from the URL |
 | 2    | `calc_change`   | first change of a calculator input           |
-| 3    | `calc_result`   | result is shown                              |
-| 4    | `form_focus`    | user taps into the e-mail field              |
-| 5    | `form_submit`   | form sent and lead saved                     |
-| 6    | `thankyou_view` | thank-you screen shown                       |
+| 3    | `form_focus`    | user taps into the e-mail field              |
+| 4    | `form_submit`   | form sent and lead saved                     |
+| 5    | `thankyou_view` | thank-you screen shown                       |
+
+Funnel: `page_view` → `calc_change` → `form_focus` → `form_submit` → `thankyou_view`. There is no event for seeing the result: it is on the first screen from the start, and an event fired on load would only repeat `page_view`.
 
 ![Funnel in PostHog](docs/funnel.png)
+
+The screenshot is from the earlier six-step funnel, which still had `calc_result` between `calc_change` and `form_focus`.
 
 Test run on localhost: 2 page views, 1 full path to thankyou_view.
 
@@ -114,16 +117,16 @@ Leads are stored in Supabase (table `leads`: e-mail, monthly amount, years, ad v
 
 The comparison e-mail is sent by Resend from a Nuxt server route, after the lead is saved. One address gets at most one e-mail per 10 minutes, so the form cannot be used to flood someone's inbox. The limit is one atomic database update, so parallel requests cannot get around it.
 
-How I verified it: Went through the whole path on localhost with ?v=b, checked all six events in PostHog Activity and the row in Supabase.
+How I verified it: Went through the whole path on localhost with ?v=b, checked every event in PostHog Activity and the row in Supabase.
 
 ## 9. Expected conversion
 
 Estimate for cold traffic from a mobile ad, calculated step by step:
 
-- 100 % arrive. About 40 % leave without touching anything (bounce on cold mobile traffic is usually 50 to 70 %, the calculator on the first screen should keep it lower).
-- 60 % change the calculator. Of those, 90 % see the result (it is instant): 54 %.
-- Of those who see the result, 20 % tap into the form: about 11 %.
-- Of those who start the form, 70 % submit (one field): about 7.5 %.
+- 100 % arrive and see the result for 3 000 CZK and 20 years right away (`page_view`). About 40 % leave without touching anything (bounce on cold mobile traffic is usually 50 to 70 %, a number on the first screen should keep it lower).
+- 60 % change the calculator to their own numbers (`calc_change`).
+- About 11 % tap into the form (`form_focus`), mostly people who tried their own numbers, some who only read the default result.
+- Of those who start the form, 70 % submit (one field): about 7.5 % (`form_submit`).
 
 **Expected visit-to-lead: 5 to 8 %.** The number depends mostly on how well the ad and the first screen match. I would treat anything under 3 % as a sign that the first screen is wrong, not the form.
 
@@ -135,7 +138,7 @@ Ordered by expected impact:
 
 1. **Form before vs. after the result.** Variant: ask for the e-mail to "unlock" the result. Expected: fewer people reach the result, but more of those who do give an e-mail. I expect the current order (result first) to win on leads per visit, but this is the biggest lever on the page, so it has to be tested first. Metric: `form_submit` / `page_view`.
 2. **Fee headline vs. choice headline on the first screen.** Same as the two ad versions, but tested on the page with the same ad. Expected: the fee version wins, because a loss in CZK is more concrete than a question. Metric: `calc_change` / `page_view`.
-3. **Result hidden until the first change vs. visible on load.** Now the calculator starts at 3 000 CZK and 20 years and the result appears after the first change. Variant: the result is visible right away. Expected: more people see a result, fewer touch the inputs. Metric: `form_submit` / `page_view`.
+3. **Result visible on load vs. hidden until the first input.** Baseline: the result for 3 000 CZK and 20 years is visible on load. Variant: the result appears only after the first input. Expected: the variant makes more people touch the inputs, but fewer reach the form, so the baseline wins on leads per visit. Metric: `form_submit` / `page_view`.
 
 ## 11. Decisions where the assignment was unclear
 
@@ -149,6 +152,7 @@ Ordered by expected impact:
 | Fonts                                                            | Self-hosted (IBM Plex Sans and Newsreader, latin and latin-ext only)                                                                                                                                                               | Google Fonts would send every visitor's IP address to Google, which goes against analytics without personal data                   |
 | Analytics and the cookie banner                                  | PostHog with memory-only persistence: no cookies, no local or session storage                                                                                                                                                      | No banner on the first screen. The cost is that a reload counts as a new visitor                                                   |
 | What if the e-mail fails                                         | The lead is still saved and the thank-you screen still shows the full comparison; the error is logged                                                                                                                              | The visitor gets what was promised either way. A failed e-mail must not lose the lead                                              |
+| Result hidden until first input → changed to visible on load | Visible on load with 3 000 CZK and 20 years | I saw the empty space on the live page; the value has to be visible in the first seconds; the funnel is fixed by not firing calc_result on load |
 
 ## 12. How I worked with AI
 
@@ -170,7 +174,7 @@ Tools: Claude Code for implementation, Claude (chat) for discussing the approach
 - Every number in `/data/etfs.json` against the issuer page saved as PDF, by hand.
 - The calculator against an independent calculation. I verified it in a separate Claude chat with the FV formula and a month-by-month loop: 3 000 Kč a month, 20 years, TER 0.03 % gives 1 517 433 Kč. The same case is a unit test, "matches independent calculation" in [`shared/utils/feeCalc.test.ts`](./shared/utils/feeCalc.test.ts).
 - The form submitted for real, then the row in Supabase, including a repeat submit that updated the same row.
-- All six events in PostHog.
+- Every funnel event in PostHog.
 - Lighthouse on mobile, production build: Performance 92, Accessibility 100, Best Practices 100, SEO 100.
 - The Czech texts read by me. I rewrote the ones I did not like, for example the line above the form, the button text and the hint before the first change.
 
@@ -191,6 +195,7 @@ Tools: Claude Code for implementation, Claude (chat) for discussing the approach
 | Performance 71 in Lighthouse: PostHog loaded before the page                                    | Lighthouse                                        | PostHog loads after the page, events queue; now 92                                           |
 | The form could be used to flood any inbox with e-mails                                          | Security review by a separate agent               | Limit per address; the second review found a race condition, fixed with one atomic DB update |
 | NUXT_MAIL_FROM had no angle brackets and used an unverifiable vercel.app domain | Agent tested against Resend's test address | Verified mail.kubandam.dev |
+| Result was hidden until first input, leaving an empty first screen | I noticed it on the live page | Shown on load, funnel event changed |
 
 ## 13. What is missing
 

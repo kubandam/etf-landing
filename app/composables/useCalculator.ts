@@ -2,7 +2,7 @@ import { MONTHLY, YEARS_INITIAL, compareFunds, type Years } from '#shared/utils/
 
 /**
  * Calculator state, shared across components (the lead form reads monthly/years).
- * `result` stays null until the user changes an input for the first time.
+ * The result is shown from the first render with the defaults (3 000 Kč, 20 let).
  */
 export function useCalculator() {
   const monthly = useState<number>('calc-monthly', () => MONTHLY.initial)
@@ -10,18 +10,15 @@ export function useCalculator() {
   const touched = useState<boolean>('calc-touched', () => false)
   const { pageFunds } = useEtfs()
 
-  // Always computed so the hidden result can reserve its exact height before the first input.
-  const preview = computed(() => compareFunds(monthly.value, years.value, pageFunds))
-  const result = computed(() => (touched.value ? preview.value : null))
+  const result = computed(() => compareFunds(monthly.value, years.value, pageFunds))
   const track = useTrack()
 
-  /** Call from input handlers. The first call reveals the result and fires calc_change + calc_result once per page load. */
+  /** Call from input handlers. Fires calc_change once per page load, on the first real user input. */
   function onUserInput(field: 'monthly' | 'years') {
     if (touched.value) return
     touched.value = true
     track('calc_change', { field })
-    track('calc_result', { monthly: monthly.value, years: years.value, feeGap: Math.round(result.value!.feeGap) })
   }
 
-  return { monthly, years, touched, result, preview, onUserInput }
+  return { monthly, years, touched, result, onUserInput }
 }
