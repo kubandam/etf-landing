@@ -59,7 +59,12 @@ describe('endValue', () => {
     expect(v).toBeGreaterThan(0)
   })
 
-  test.todo('matches owner spreadsheet row 1')
+  // Verified independently (FV formula and a month-by-month loop) outside this repo.
+  test('matches independent calculation', () => {
+    const v = endValue({ monthly: 3000, years: 20, annualReturnPct: 7, terPct: 0.03 })
+    expect(Math.round(v)).toBe(1517433)
+    expect(formatCzk(v)).toBe('1 517 433 Kč')
+  })
 })
 
 describe('compareFunds', () => {
