@@ -6,7 +6,8 @@ create table if not exists public.leads (
   years int not null,
   variant text not null,
   created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now()
+  updated_at timestamptz not null default now(),
+  emailed_at timestamptz
 );
 
 -- Only the server (secret / service_role key) writes. No policy = anon and authenticated get nothing.

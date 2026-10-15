@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { LeadError, emailCooldownActive, parseLead } from './lead'
+import { LeadError, parseLead } from './lead'
 
 const ok = { email: 'jan@example.cz', monthly: 3000, years: 20, variant: 'a' }
 
@@ -60,15 +60,3 @@ describe('parseLead', () => {
   })
 })
 
-describe('emailCooldownActive', () => {
-  const now = new Date('2026-10-15T12:00:00Z')
-  test('first submit (no previous row) → send', () => {
-    expect(emailCooldownActive(null, now)).toBe(false)
-  })
-  test('same e-mail 5 minutes ago → skip', () => {
-    expect(emailCooldownActive('2026-10-15T11:55:00Z', now)).toBe(true)
-  })
-  test('same e-mail 11 minutes ago → send', () => {
-    expect(emailCooldownActive('2026-10-15T11:49:00Z', now)).toBe(false)
-  })
-})

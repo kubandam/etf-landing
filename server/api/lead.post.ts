@@ -1,6 +1,6 @@
-import { LeadError, emailCooldownActive, parseLead } from '../utils/lead'
+import { LeadError, parseLead } from '../utils/lead'
 import { sendComparisonEmail } from '../utils/resend'
-import { upsertLead } from '../utils/supabase'
+import { claimEmailSlot, releaseEmailSlot, upsertLead } from '../utils/supabase'
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event).catch(() => null)
@@ -20,9 +20,8 @@ export default defineEventHandler(async (event) => {
     return { ok: false, error: e instanceof LeadError ? e.code : 'invalid_input' }
   }
 
-  let previousUpdatedAt: string | null
   try {
-    previousUpdatedAt = await upsertLead(lead)
+    await upsertLead(lead)
   }
   catch (e) {
     // Lead not saved: tell the client so the user can retry instead of a false "thank you".
@@ -33,8 +32,21 @@ export default defineEventHandler(async (event) => {
 
   // Only after the lead is saved. A failed e-mail never fails the request.
   let emailed = false
-  if (emailCooldownActive(previousUpdatedAt)) console.warn('[email] skipped: same address submitted within the cooldown')
-  else emailed = await sendComparisonEmail(lead)
+  try {
+    if (await claimEmailSlot(lead.email)) {
+      emailed = await sendComparisonEmail(lead)
+      if (!emailed) await releaseEmailSlot(lead.email)
+    }
+    else {
+      // A comparison was sent to this address within the cooldown (failed sends release the slot).
+      // Answer exactly like a fresh send, so the response does not reveal that the address was used.
+      emailed = true
+      console.warn('[email] skipped: address e-mailed within the cooldown')
+    }
+  }
+  catch (e) {
+    console.error('[email] cooldown check failed:', e instanceof Error ? e.message : e)
+  }
 
   setResponseStatus(event, 201)
   return { ok: true, emailed }
