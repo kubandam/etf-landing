@@ -47,7 +47,7 @@ Two versions with two different promises. The first screen of the page uses the 
 
 Ad and page use the same headline word for word. The 16 000 Kč in A is SPY's fees at the calculator defaults (3 000 Kč a month, 20 years), computed from `/data/etfs.json` and rounded down; a unit test fails if the data ever changes it.
 
-The page reads the `?v=a` / `?v=b` URL parameter and switches the headline. Default without the parameter is version A. Full ad texts are in [`/ads`](./ads).
+The page reads the `?v=a` / `?v=b` URL parameter and switches the headline. Default without the parameter is version A. Full ad texts are in [`/ads/README.md`](./ads/README.md).
 
 ## 5. Page structure
 
