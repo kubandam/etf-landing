@@ -40,6 +40,8 @@ export default defineNuxtConfig({
     // Server only. Set via NUXT_RESEND_API_KEY / NUXT_MAIL_FROM (e.g. "Porovnání ETF <porovnani@vasedomena.cz>").
     resendApiKey: '',
     mailFrom: '',
+    // Set via NUXT_MAIL_REPLY_TO. Replies go here (the sender address cannot receive mail).
+    mailReplyTo: '',
     public: {
       // Set via NUXT_PUBLIC_POSTHOG_KEY. Empty = no tracking, events only logged with console.debug.
       posthogKey: '',
